@@ -6,6 +6,8 @@ module scenes {
         // private enemy:objects.Enemy;
         private enemies: objects.Enemy[];
         private enemyNum: number;
+        private explosion: objects.Explosion;
+        private isExploding: boolean = false;
 
         private scoreBoard: managers.ScoreBoard;
 
@@ -24,7 +26,7 @@ module scenes {
         public Start(): void {
             this.background = new objects.Background();
             this.player = new objects.Player();
-            // this.enemy = new objects.Enemy(this.assetManager);
+
 
             this.enemies = new Array<objects.Enemy>();
             this.enemyNum = 10;
@@ -50,9 +52,16 @@ module scenes {
 
                 this.player.isDead = managers.Collision.Check(this.player, enemy);
 
-                if (this.player.isDead) {
+                if (this.player.isDead && !this.isExploding) {
                     this.backgroundMusic.stop();
-                    managers.Game.currentScene = config.Scene.OVER;
+
+                    // Create explosion
+                    this.explosion = new objects.Explosion(this.player.x, this.player.y);
+                    this.explosion.on("animationend", this.handleExplosion);
+                    this.addChild(this.explosion);
+                    this.removeChild(this.player);
+                    this.isExploding = true;
+                    // managers.Game.currentScene = config.Scene.OVER;
                 }
             });
         }
@@ -60,13 +69,17 @@ module scenes {
         public Main(): void {
             this.addChild(this.background);
             this.addChild(this.player);
-            // this.addChild(this.enemy);
 
             this.enemies.forEach(enemy => {
                 this.addChild(enemy);
             });
 
             this.addChild(this.scoreBoard.scoreLabel);
+        }
+        public handleExplosion(): void {
+            this.stage.removeChild(this.explosion);
+            this.isExploding = false;
+            managers.Game.currentScene = config.Scene.OVER;
         }
     }
 }
