@@ -1,37 +1,37 @@
 module objects {
     export class Background extends createjs.Bitmap {
         // Variables
-        private speedY : number;
+        private speedY: number;
 
         // Constructor
-        constructor(assetManager: createjs.LoadQueue) {
-            super(assetManager.getResult("background"));
+        constructor() {
+            super(managers.Game.assetManager.getResult("background"));
 
             this.Start();
         }
         // Methods / Function
-        public Start():void {
+        public Start(): void {
             this.speedY = 1;
             this.Reset();
         }
 
-        public Update():void {
+        public Update(): void {
             // Move our background
             this.Move();
             // Check bounds
             this.CheckBounds();
         }
 
-        private Reset():void {
+        private Reset(): void {
             this.y = -1120;
         }
 
-        private Move():void {
+        private Move(): void {
             this.y += this.speedY;
         }
 
-        private CheckBounds():void {
-            if(this.y >= 0) {
+        private CheckBounds(): void {
+            if (this.y >= 0) {
                 this.Reset();
             }
         }

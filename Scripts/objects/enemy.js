@@ -17,15 +17,14 @@ var objects;
         __extends(Enemy, _super);
         // Variables
         // Constructor
-        function Enemy(assetManager) {
-            var _this = _super.call(this, assetManager, "enemy") || this;
+        function Enemy() {
+            var _this = _super.call(this, "Enemy") || this;
             _this.Start();
             return _this;
         }
-        // Methods / Functions
-        // Methods / Functions
+        // Method / Functions
         Enemy.prototype.Start = function () {
-            this.x = Math.floor(Math.random() * 600) + 0; // Random value between 0 and 500
+            this.x = Math.floor(Math.random() * 500) + 0; // Random value between 0 and 500
             this.y = Math.floor(Math.random() * -200) + -50;
         };
         Enemy.prototype.Update = function () {
@@ -34,7 +33,7 @@ var objects;
         };
         Enemy.prototype.Reset = function () { };
         Enemy.prototype.Move = function () {
-            this.y += Math.floor(Math.random() * 10) + 2;
+            this.y += 5;
         };
         Enemy.prototype.CheckBounds = function () {
             // Check y bounds

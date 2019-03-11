@@ -16,12 +16,12 @@ var objects;
     var Player = /** @class */ (function (_super) {
         __extends(Player, _super);
         // Constructor
-        function Player(assetManager) {
-            var _this = _super.call(this, assetManager, "player") || this;
+        function Player() {
+            var _this = _super.call(this, "Spaceship") || this;
             _this.Start();
             return _this;
         }
-        // Methods / Functions
+        // Methods / functions
         Player.prototype.Start = function () {
             this.isDead = false;
             this.x = 300;
@@ -31,8 +31,7 @@ var objects;
             this.Move();
             this.CheckBounds();
         };
-        Player.prototype.Reset = function () {
-        };
+        Player.prototype.Reset = function () { };
         Player.prototype.Move = function () {
             // this.x = objects.Game.stage.mouseX; // objects.Game.stage is a global variable
             // Keyboard controls
@@ -48,6 +47,7 @@ var objects;
             if (this.x >= 600 - this.halfW) {
                 this.x = 600 - this.halfW;
             }
+            // Check left boundary
             if (this.x <= this.halfW) {
                 this.x = this.halfW;
             }

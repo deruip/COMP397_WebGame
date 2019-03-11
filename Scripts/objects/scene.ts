@@ -1,22 +1,22 @@
 module objects {
-    export class Scene extends createjs.Container {
+    export abstract class Scene extends createjs.Container {
         // Variables
         public assetManager;
 
         // Constructors
-        constructor(assetManager:createjs.LoadQueue) {
+        constructor() {
             super();
 
-            this.assetManager = assetManager;
+            this.assetManager = managers.Game.assetManager;
         }
         // Methods
-        public Start():void {
+        public Start(): void {
 
         }
 
         // Going to be called from the game's update function. Think of this as the game loop
-        public Update():void {
-            
+        public Update(): void {
+
         }
 
         public Main(): void {

@@ -6,21 +6,21 @@ module scenes {
         private background: objects.Background;
 
         // Constructors
-        constructor(assetManager: createjs.LoadQueue) {
-            super(assetManager);
+        constructor() {
+            super();
 
             this.Start();
         }
         // Methods
-        private startButtonClick():void {
+        private startButtonClick(): void {
             managers.Game.currentScene = config.Scene.GAME;
         }
 
         // Use start function to create objects
         public Start(): void {
+            this.background = new objects.Background();
             this.welcomeLabel = new objects.Label("Welcome!", "60px", "Consolas", "#FFFFFF", 320, 240, true);
-            this.startButton = new objects.Button(this.assetManager, "startButton", 320, 300);
-            this.background = new objects.Background(this.assetManager);
+            this.startButton = new objects.Button("StartButton", 300, 450);
             this.Main();
         }
 

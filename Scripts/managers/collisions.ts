@@ -1,6 +1,6 @@
 module managers {
     export class Collision {
-        private static explodeSFX: createjs.AbstractSoundInstance;
+        private static explodeSFX: createjs.AbstractSoundInstance
 
         public static Check(obj1: objects.GameObject, obj2: objects.GameObject): boolean {
             // Create 2 temporary Vec2 objects used for collision detections
@@ -9,6 +9,7 @@ module managers {
 
             if (math.Vec2.Distance(p1, p2) < (obj1.halfH + obj2.halfH)) {
                 if (!obj2.isColliding) {
+                    // console.log("Colliding with " + obj2.name);
                     switch (obj2.name) {
                         case "enemy":
                             this.explodeSFX = createjs.Sound.play("explode");
@@ -18,6 +19,7 @@ module managers {
                     }
                     obj2.isColliding = true;
                 }
+
                 return true;
             }
             else {

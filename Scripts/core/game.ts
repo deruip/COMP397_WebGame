@@ -5,33 +5,70 @@
     Calls an anonympous self-executing function
     Anything in braces is in a closure. Won't go to global namespace.
 */
-(function() {
+(function () {
 
     // Global Game Variables
     let canvas = document.getElementById("canvas");
-    let stage:createjs.Stage;
-    
+    let stage: createjs.Stage;
+
     let assetManager: createjs.LoadQueue;
     let assetManifest: any[];                         // Basically a "struct". Placeholder for now.\
 
     let currentScene: objects.Scene;
-    let currentState:number;
+    let currentState: number;
 
-    let keyboardManager:managers.Keyboard;
+    let keyboardManager: managers.Keyboard;
+
+    let textureAtlasData: any;
+    let textureAtlas: createjs.SpriteSheet;
+
+    textureAtlasData = {
+
+        "images": [
+            "./Assets/Sprites/textureAtlas.png"
+        ],
+
+        "frames": [
+            [0, 0, 19, 19, 0, 0, 0],
+            [21, 0, 34, 31, 0, 0, 0],
+            [57, 0, 35, 32, 0, 0, 0],
+            [94, 0, 35, 32, 0, 0, 0],
+            [131, 0, 38, 32, 0, 0, 0],
+            [171, 0, 38, 32, 0, 0, 0],
+            [211, 0, 39, 31, 0, 0, 0],
+            [0, 34, 41, 61, 0, 0, 0],
+            [43, 34, 75, 60, 0, 0, 0],
+            [0, 97, 190, 49, 0, 0, 0],
+            [0, 148, 190, 49, 0, 0, 0],
+            [0, 199, 190, 49, 0, 0, 0]
+        ],
+
+        "animations": {
+            "Explosion": {
+                "frames": [0, 3, 1, 2, 4, 5],
+                "speed": 0.5
+            },
+            "BackButton": { "frames": [6] },
+            "Spaceship": { "frames": [7] },
+            "Enemy": { "frames": [8] },
+            "PlayButton": { "frames": [9] },
+            "QuitButton": { "frames": [10] },
+            "StartButton": { "frames": [11] }
+        },
+
+    }
+
 
     assetManifest = [                               // Array of objects. Key-value pairs
-        {id: "startButton", src:"./Assets/Images/startButton.png"},
-        {id: "nextButton", src:"./Assets/Images/nextButton.png"},
-        {id: "backButton", src:"./Assets/Images/backButton.png"},
-        {id: "background", src:"./Assets/Images/SeamlessBG.png"},
-        {id: "player", src:"./Assets/Images/Spaceship.png"},
-        {id: "enemy", src:"./Assets/Images/Enemy.png"},
-        {id: "explode", src:"./Assets/Audio/explode.wav"},
-        {id: "play_music", src:"./Assets/Audio/play_music.ogg"}
+        { id: "background", src: "./Assets/Images/SeamlessBG.png" },
+        { id: "explode", src: "./Assets/Audio/explode.wav" },
+        { id: "play_music", src: "./Assets/Audio/play_music.ogg" }
     ];
 
-    function Init():void {
+    function Init(): void {
         console.log("Initialization start");
+
+        textureAtlas = new createjs.SpriteSheet(textureAtlasData);
 
         assetManager = new createjs.LoadQueue();    // Creates the container used for the queue.
         assetManager.installPlugin(createjs.Sound); // Necessary to use sounds in our game. 
@@ -41,7 +78,7 @@
         // Start();
     }
 
-    function Start():void {
+    function Start(): void {
         console.log("Starting Application...");
 
         // Initialize CreateJS
@@ -54,13 +91,18 @@
         managers.Game.currentScene = config.Scene.START;
         currentState = config.Scene.START;
 
-        keyboardManager = new managers.Keyboard;
+        keyboardManager = new managers.Keyboard();
         managers.Game.keyboardManager = keyboardManager;
+
+        // Setup global reference to asset manager
+        managers.Game.assetManager = assetManager;
+        managers.Game.textureAtlas = textureAtlas;
+
         Main();
     }
 
-    function Update():void {
-        if(currentState != managers.Game.currentScene) {
+    function Update(): void {
+        if (currentState != managers.Game.currentScene) {
             console.log(managers.Game.currentScene);
             Main();
         }
@@ -70,23 +112,23 @@
         stage.update();
     }
 
-    function Main():void {
-        switch(managers.Game.currentScene) {
+    function Main(): void {
+        switch (managers.Game.currentScene) {
             case config.Scene.START:
-            stage.removeAllChildren();
-            currentScene = new scenes.StartScene(assetManager);
-            stage.addChild(currentScene);
-            break;
+                stage.removeAllChildren();
+                currentScene = new scenes.StartScene();
+                stage.addChild(currentScene);
+                break;
             case config.Scene.GAME:
-            stage.removeAllChildren();
-            currentScene = new scenes.PlayScene(assetManager);
-            stage.addChild(currentScene);
-            break;
+                stage.removeAllChildren();
+                currentScene = new scenes.PlayScene();
+                stage.addChild(currentScene);
+                break;
             case config.Scene.OVER:
-            stage.removeAllChildren();
-            currentScene = new scenes.GameOverScene(assetManager);
-            stage.addChild(currentScene);
-            break;
+                stage.removeAllChildren();
+                currentScene = new scenes.GameOverScene();
+                stage.addChild(currentScene);
+                break;
         }
         currentState = managers.Game.currentScene;
         stage.addChild(currentScene);

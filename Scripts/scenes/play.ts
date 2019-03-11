@@ -3,7 +3,7 @@ module scenes {
         // Variables
         private background: objects.Background;
         private player: objects.Player;
-        // private enemy: objects.Enemy;
+        // private enemy:objects.Enemy;
         private enemies: objects.Enemy[];
         private enemyNum: number;
 
@@ -12,8 +12,8 @@ module scenes {
         private backgroundMusic: createjs.AbstractSoundInstance;
 
         // Constructor
-        constructor(assetManager: createjs.LoadQueue) {
-            super(assetManager);
+        constructor() {
+            super();
             this.backgroundMusic = createjs.Sound.play("play_music");
             this.backgroundMusic.loop = -1; // Looping forever
             this.backgroundMusic.volume = 0.3;
@@ -22,18 +22,18 @@ module scenes {
         }
         // Methods
         public Start(): void {
-            this.background = new objects.Background(this.assetManager);
-            this.player = new objects.Player(this.assetManager);
+            this.background = new objects.Background();
+            this.player = new objects.Player();
             // this.enemy = new objects.Enemy(this.assetManager);
 
             this.enemies = new Array<objects.Enemy>();
-            this.enemyNum = 5;
+            this.enemyNum = 10;
             for (let i = 0; i < this.enemyNum; i++) {
-                this.enemies[i] = new objects.Enemy(this.assetManager);
-
+                this.enemies[i] = new objects.Enemy();
             }
+
             // Initializing the scoreboard objects
-            this.scoreBoard = new managers.ScoreBoard;
+            this.scoreBoard = new managers.ScoreBoard();
             // Make scoreboard globally accessible
             managers.Game.scoreBoard = this.scoreBoard;
 
@@ -44,18 +44,17 @@ module scenes {
             this.background.Update();
             this.player.Update();
             // this.enemy.Update();
-
             // For-each loop
             this.enemies.forEach(enemy => {
                 enemy.Update();
+
                 this.player.isDead = managers.Collision.Check(this.player, enemy);
+
                 if (this.player.isDead) {
-                    this.backgroundMusic.stop;
+                    this.backgroundMusic.stop();
                     managers.Game.currentScene = config.Scene.OVER;
                 }
             });
-
-
         }
 
         public Main(): void {
@@ -65,7 +64,7 @@ module scenes {
 
             this.enemies.forEach(enemy => {
                 this.addChild(enemy);
-            })
+            });
 
             this.addChild(this.scoreBoard.scoreLabel);
         }

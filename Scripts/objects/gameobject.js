@@ -16,13 +16,13 @@ var objects;
     var GameObject = /** @class */ (function (_super) {
         __extends(GameObject, _super);
         // Constructor
-        function GameObject(assetManager, imageString) {
-            var _this = _super.call(this, assetManager.getResult(imageString)) || this;
+        function GameObject(imageString) {
+            var _this = _super.call(this, managers.Game.textureAtlas, imageString) || this;
             _this.name = imageString;
             _this.Init();
             return _this;
         }
-        // Methods = Functions
+        // Methods / Functions
         GameObject.prototype.Init = function () {
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
@@ -32,18 +32,13 @@ var objects;
             this.regY = this.halfH;
             this.isColliding = false;
         };
-        GameObject.prototype.Start = function () {
-        };
-        GameObject.prototype.Update = function () {
-        };
-        GameObject.prototype.Reset = function () {
-        };
-        GameObject.prototype.CheckBounds = function () {
-        };
-        GameObject.prototype.Move = function () {
-        };
+        GameObject.prototype.Start = function () { };
+        GameObject.prototype.Update = function () { };
+        GameObject.prototype.Reset = function () { };
+        GameObject.prototype.CheckBounds = function () { };
+        GameObject.prototype.Move = function () { };
         return GameObject;
-    }(createjs.Bitmap));
+    }(createjs.Sprite));
     objects.GameObject = GameObject;
 })(objects || (objects = {}));
 //# sourceMappingURL=gameobject.js.map

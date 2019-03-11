@@ -7,16 +7,18 @@ module managers {
 
         // Public properties
         get Score(): number {
-            return this.score
+            return this.score;
         }
         set Score(newScore: number) {
             this.score = newScore;
             this.scoreLabel.text = "Score: " + this.score;
         }
+
         // Constructor
         constructor() {
             this.Init();
         }
+
         // Methods
         private Init(): void {
             this.scoreLabel = new objects.Label("Score: 999999", "20px", "Consolas", "#FFFF00", 10, 10, false);
